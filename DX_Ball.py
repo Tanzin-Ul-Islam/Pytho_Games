@@ -2,6 +2,8 @@ import turtle
 import time
 delay=0.001
 segment=[]
+score=0
+high_score=0
 
 #Screen
 wn=turtle.Screen()
@@ -9,6 +11,14 @@ wn.title("DX Ball by @tanzin")
 wn.setup(width=800,height=600)
 wn.bgcolor("green")
 wn.tracer(0)
+#score board
+pen=turtle.Turtle()
+pen.shape("square")
+pen.color("white")
+pen.hideturtle()
+pen.penup()
+pen.goto(0,270)
+pen.write("Score:0  High Score:0",align="center",font=("arial",18,"normal"))
 
 #Bar
 bar=turtle.Turtle()
@@ -20,7 +30,7 @@ bar.goto(0,-275)
 
 #Block
 x=-380
-y=280
+y=250
 count=0
 for i in range(5):
     for j in range(14):
@@ -87,10 +97,19 @@ while True:
         ball.dy*=-1
     if ball.ycor()<-290:
         ball.goto(bar.xcor()+20,bar.ycor()+20)
-    
+
     #hide blocks
     for segments in segment:
         if ball.distance(segments) < 20:
-            segments.hideturtle()
+            segments.goto(1000,1000)
+            ball.dy*=-1
+            score=score+5
+            if score>high_score:
+                high_score=score
+            pen.clear()
+            pen.write("Score:{}  High Score:{}".format(score,high_score), align="center", font=("arial", 18, "normal"))
+            #delay = delay - 0.001
+
+
 
     time.sleep(delay)
